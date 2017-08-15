@@ -27,6 +27,9 @@
     <link href="uielement/bootstrap/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <!-- jQuery -->
     <script src="uielement/bootstrap/vendor/jquery/jquery.min.js"></script>
+    <script src="uielement/typeahead/typeahead.bundle.js"></script>
+    <script src="uielement/custom/custom.js"></script>
+    <link rel=stylesheet href="uielement/typeahead/typeahead.css">
     <script src="uielement/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js"></script>
     <link rel=stylesheet href='uielement/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css' />
 
@@ -90,19 +93,19 @@
                             <!-- /input-group -->
                         </li>
                         <li>
-                            <a href="?view=dashboard"><i class="fa fa-dashboard fa-fw"></i> Depan</a>
+                            <a href="?a=view-dashboard"><i class="fa fa-dashboard fa-fw"></i> Depan</a>
                         </li>
                         <li>
-                            <a href="?view=peminjaman-barang"><i class="fa fa-suitcase fa-fw"></i> Stok</a>
+                            <a href="?a=view-stok"><i class="fa fa-suitcase fa-fw"></i> Stok</a>
                         </li>
                         <li>
-                            <a href="index.html"><i class="fa fa-file-text-o fa-fw"></i> Inventaris</a>
+                            <a href="?a=view-inventaris"><i class="fa fa-file-text-o fa-fw"></i> Inventaris</a>
                         </li>
                         <li>
-                            <a href="index.html"><i class="fa fa-users fa-fw"></i> Peminjaman Barang</a>
+                            <a href="?a=view-peminjaman-barang"><i class="fa fa-users fa-fw"></i> Peminjaman Barang</a>
                         </li>
                         <li>
-                            <a href="index.html"><i class="fa fa-ticket fa-fw"></i> Peminjaman Proyektor</a>
+                            <a href="?a=view-peminjaman-proyektor"><i class="fa fa-ticket fa-fw"></i> Peminjaman Proyektor</a>
                         </li>
                     </ul>
                 </div>

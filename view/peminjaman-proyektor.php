@@ -3,7 +3,7 @@ require_once('_header.php');
  ?>
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Peminjaman Barang</h1>
+                    <h1 class="page-header">Peminjaman Proyektor</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -16,55 +16,22 @@ require_once('_header.php');
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                          <script type=text/javascript>
-                            function preSubmit(){
-                              var pin=prompt("Masukkan pin");
-                              if(pin && pin!=''){
-                                $('#formPn').val(pin);
-                                return true;
-                              }else{
-                                return false;
-                              }
-                            }
-                          </script>
-                          <form role="form" action='?a=exec-peminjaman-barang-save' onsubmit='return preSubmit()' method='post'>
+                          <form role="form">
                               <div class="form-group">
                                   <label>Waktu</label>
                                   <input name='waktuPinjam' class="form-control" id='datetimepicker' value='<?=date('Y-m-d h:i:s');?>'>
                               </div>
                               <div class="form-group">
-                                  <label>Nama Barang</label><br>
-                                  <input name='namaBarang' id='namaBarang' class="typeahead form-control" placeholder="Masukkan nama barang" autofocus="autofocus">
-                                  <script type="text/javascript">
-                                  /*
-                                    $(document).ready(function(){
-                                        // Defining the local dataset
-                                        var cars = ['Proyektor', 'Laptop', 'Obeng','Layar','Stop Kontak','Mouse','Keyboard','Router'];
-
-                                        // Constructing the suggestion engine
-                                        var cars = new Bloodhound({
-                                            datumTokenizer: Bloodhound.tokenizers.whitespace,
-                                            queryTokenizer: Bloodhound.tokenizers.whitespace,
-                                            local: cars
-                                        });
-
-                                        // Initializing the typeahead
-                                        $('#namaBarang').typeahead({
-                                            hint: true,
-                                            highlight: true,
-                                            minLength: 1
-                                        },
-                                        {
-                                            name: 'cars',
-                                            source: cars
-                                        });
-                                        $("#namaBarang").focus();
-                                    });*/
-                                    </script>
-                              </div>
-                              <div class="form-group">
-                                  <label>Jumlah</label>
-                                  <input name='jumlah' class="form-control" value="1" type=number>
+                                  <label>Proyektor</label>
+                                  <select name='instansi' class="form-control">
+                                    <option value='' selected=selected>--Pilih proyektor--</option>
+                                    <option value='LCD 01'>LCD 01</option>
+                                    <option value='LCD 02'>LCD 02</option>
+                                    <option value='LCD 03'>LCD 03</option>
+                                    <option value='LCD 04'>LCD 04</option>
+                                    <option value='LCD 05'>LCD 05</option>
+                                    <option value='LCD 06'>LCD 06</option>
+                                  </select>
                               </div>
                               <div class="form-group">
                                   <label>Nama Peminjam</label>
@@ -83,10 +50,6 @@ require_once('_header.php');
                                     <option value='STMIK'>STMIK</option>
                                     <option value='UMUM'>UMUM</option>
                                   </select>
-                              </div>
-                              <div class="form-group">
-                                  <label>PIN</label>
-                                  <input name="formPn" class="form-control" type=password>
                               </div>
                               <div class="form-group">
                                   <button class='btn btn-primary'>Simpan</button>
@@ -124,22 +87,30 @@ require_once('_header.php');
                                         </tr>
                                     </thead>
                                     <tbody>
-                                      <?php
-                                      $belumKembali=$db->fetch("select * from peminjamanbarang where waktuKembali is NULL order by waktupinjam desc");
-                                      foreach($belumKembali as $item){
-                                        echo "
-                                         <tr>
-                                             <td>$item[namaBarang]</td>
-                                             <td>$item[namaPeminjam]</td>
-                                             <td>".$item['waktuPinjam']."</td>
-                                             <td>
-                                                 <a href='' class='btn btn-success btn-xs'>Kembali</a>
-                                             </td>
-                                         </tr>
-                                        ";
-                                      }
-
-                                       ?>
+                                        <tr>
+                                            <td>Mark</td>
+                                            <td>Otto</td>
+                                            <td>@mdo</td>
+                                            <td>
+                                                <a href="#" class="btn btn-success btn-xs">Kembali</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Jacob</td>
+                                            <td>Thornton</td>
+                                            <td>@fat</td>
+                                            <td>
+                                                <a href="#" class="btn btn-success btn-xs">Kembali</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Larry</td>
+                                            <td>the Bird</td>
+                                            <td>@twitter</td>
+                                            <td>
+                                                <a href="#" class="btn btn-success btn-xs">Kembali</a>
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -174,30 +145,33 @@ require_once('_header.php');
                                         </tr>
                                     </thead>
                                     <tbody>
-                                      <?php
-                                      if(!isset($_GET['p'])){
-                                        $pg=1;
-                                      }else{
-                                        $pg=$_GET['p'];
-                                      }
-                                      $belumKembali=$db->fetch("select * from peminjamanbarang order by waktuPinjam desc limit ".(($pg-1)*40).",40");
-                                      foreach($belumKembali as $item){
-                                        echo "
-                                         <tr>
-                                             <td>$item[namaBarang]</td>
-                                             <td>$item[namaPeminjam]</td>
-                                             <td>$item[penanggungJawab]</td>
-                                             <td>$item[instansi]</td>
-                                             <td>".$item['waktuPinjam']."</td>
-                                             <td>".$item['waktuKembali']."</td>
-                                             <td>
-                                                 <a href='' class='btn btn-success btn-xs'>Kembali</a>
-                                             </td>
-                                         </tr>
-                                        ";
-                                      }
-
-                                       ?>
+                                        <tr>
+                                            <td>Mark</td>
+                                            <td>Otto</td>
+                                            <td>Otto</td>
+                                            <td>Otto</td>
+                                            <td>@mdo</td>
+                                            <td>@mdo</td>
+                                            <td>@mdo</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Jacob</td>
+                                            <td>Thornton</td>
+                                            <td>@fat</td>
+                                            <td>@fat</td>
+                                            <td>@fat</td>
+                                            <td>@fat</td>
+                                            <td>@fat</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Larry</td>
+                                            <td>the Bird</td>
+                                            <td>@twitter</td>
+                                            <td>@twitter</td>
+                                            <td>@twitter</td>
+                                            <td>@twitter</td>
+                                            <td>@twitter</td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -205,10 +179,6 @@ require_once('_header.php');
                             <div class='row'>
                               <div class='col-lg-2'>
                                 <select class="form-control">
-                                  <?php
-                                  asdfasdf
-                                    $asdfasdf
-                                   ?>
                                   <option>1</option>
                                   <option>2</option>
                                   <option>3</option>
@@ -217,14 +187,13 @@ require_once('_header.php');
                                 </select>
                               </div>
                               <div class='col-lg-10'>
-                                Menampilkan 40 entry per halaman
+                                Menampilkan 20 entry per halaman
                               </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
 <?php
 require_once('_footer.php');
  ?>
