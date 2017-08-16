@@ -17,17 +17,17 @@ require_once('_header.php');
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                           <script type=text/javascript>
-                            function preSubmit(){
-                              var pin=prompt("Masukkan pin");
-                              if(pin && pin!=''){
-                                $('#formPn').val(pin);
-                                return true;
-                              }else{
-                                return false;
-                              }
-                            }
+                            // function preSubmit(){
+                            //   var pin=prompt("Masukkan pin");
+                            //   if(pin && pin!=''){
+                            //     $('#formPn').val(pin);
+                            //     return true;
+                            //   }else{
+                            //     return false;
+                            //   }
+                            // }
                           </script>
-                          <form role="form" action='?a=exec-peminjaman-barang-save' onsubmit='return preSubmit()' method='post'>
+                          <form role="form" action='?a=exec-peminjaman-barang-save' method='post'>
                               <div class="form-group">
                                   <label>Waktu</label>
                                   <input name='waktuPinjam' class="form-control" id='datetimepicker' value='<?=date('Y-m-d h:i:s');?>'>
@@ -86,7 +86,7 @@ require_once('_header.php');
                               </div>
                               <div class="form-group">
                                   <label>PIN</label>
-                                  <input name="formPn" class="form-control" type=password>
+                                  <input name="pn" class="form-control" type=password>
                               </div>
                               <div class="form-group">
                                   <button class='btn btn-primary'>Simpan</button>
@@ -133,7 +133,8 @@ require_once('_header.php');
                                              <td>$item[namaPeminjam]</td>
                                              <td>".$item['waktuPinjam']."</td>
                                              <td>
-                                                 <a href='' class='btn btn-success btn-xs'>Kembali</a>
+                                                 <a onclick='detailPeminjaman(".$item['idpeminjamanbarang'].")' class='btn btn-primary btn-xs'>Detail</a>
+                                                 <a onclick='transaksiKembali(".$item['idpeminjamanbarang'].")' class='btn btn-success btn-xs'>Kembali</a>
                                              </td>
                                          </tr>
                                         ";
@@ -180,7 +181,17 @@ require_once('_header.php');
                                       }else{
                                         $pg=$_GET['p'];
                                       }
-                                      $belumKembali=$db->fetch("select * from peminjamanbarang order by waktuPinjam desc limit ".(($pg-1)*40).",40");
+                                      if(isset($_GET['s'])){
+                                        $sort=substr(explode('-',$_GET['s'])[0],0,20)." ".substr(explode('-',$_GET['s'])[1],0,4);
+                                      }else{
+                                        $sort="waktuPinjam desc";
+                                      }
+                                      if(isset($_GET['f'])){
+                                        $find=" where namaPeminjam like '%".$_GET['f']."%' or penanggungJawab like '%".$_GET['f']."%' or waktuPinjam like '%".$_GET['f']."%' or waktuKembali like '%".$_GET['f']."%' ";
+                                      }else{
+                                        $find=" ";
+                                      }
+                                      $belumKembali=$db->fetch("select * from peminjamanbarang $find order by $sort limit ".(($pg-1)*40).",40");
                                       foreach($belumKembali as $item){
                                         echo "
                                          <tr>
@@ -191,7 +202,7 @@ require_once('_header.php');
                                              <td>".$item['waktuPinjam']."</td>
                                              <td>".$item['waktuKembali']."</td>
                                              <td>
-                                                 <a href='' class='btn btn-success btn-xs'>Kembali</a>
+                                                 <a onclick='detailPeminjaman(".$item['idpeminjamanbarang'].")' class='btn btn-primary btn-xs'>Detail</a>
                                              </td>
                                          </tr>
                                         ";
@@ -202,29 +213,133 @@ require_once('_header.php');
                                 </table>
                             </div>
                             <!-- /.table-responsive -->
+                              <span class='pull-right'>Menampilkan 40 entry per halaman</span>
                             <div class='row'>
-                              <div class='col-lg-2'>
-                                <select class="form-control">
+                              <div class='col-lg-2'>Halaman
+                                <select class="form-control" onchange="paging(this)">
                                   <?php
-                                  asdfasdf
-                                    $asdfasdf
+                                  $jumlah=$db->fetch("select count(idpeminjamanbarang) as jml from peminjamanbarang");
+                                  $jumlah=ceil($jumlah[0]['jml']/40);
+                                  for($i=1;$i<=$jumlah;$i++){
+                                    echo "<option ";
+                                    if(isset($_GET['pg']) && $i==$_GET['pg'])echo " selected=selected ";
+                                    echo "value=".$i.">".$i."</option>";
+                                  }
                                    ?>
-                                  <option>1</option>
-                                  <option>2</option>
-                                  <option>3</option>
-                                  <option>4</option>
-                                  <option>5</option>
                                 </select>
+                                <script type=text/javascript>
+                                function paging(e){
+                                  window.location='?a=view-peminjaman-barang&pg='+e.value+"<?php if(isset($_GET['s']))echo "&s=".$_GET['s'];?><?php if(isset($_GET['f']))echo "&f=".$_GET['f'];?>";
+                                }
+                                </script>
                               </div>
-                              <div class='col-lg-10'>
-                                Menampilkan 40 entry per halaman
+                              <div class='col-lg-3'>Urutkan
+                                <select class="form-control" onchange="sortTable(this)" id=sortTable>
+                                  <option value='waktuPinjam-desc'>Waktu Pinjam (Z-A)</option>
+                                  <option value='waktuPinjam-asc'>Waktu Pinjam (A-Z)</option>
+                                  <option value='waktuKembali-asc'>Waktu Kembali (A-Z)</option>
+                                  <option value='waktuKembali-desc'>Waktu Kembali (Z-A)</option>
+                                  <option value='namaPeminjam-asc'>Nama Peminjam (A-Z)</option>
+                                  <option value='namaPeminjam-desc'>Nama Peminjam (Z-A)</option>
+                                </select>
+                                <script type=text/javascript>
+                                <?php if(isset($_GET['s']))echo "$('#sortTable').val('".$_GET['s']."');";?>
+                                function sortTable(e){
+                                  window.location='?a=view-peminjaman-barang&s='+e.value+"<?php if(isset($_GET['f']))echo "&f=".$_GET['f'];?>";
+                                }
+                                </script>
+                              </div>
+                              <div class='col-lg-2'>Cari
+                                <form method=get action=''>
+                                  <input type="hidden" name='a' value='view-peminjaman-barang'>
+                                  <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Cari..." name='f' <?php if(isset($_GET['f']))echo "value='".$_GET['f']."'";?>>
+                                    <span class="input-group-btn">
+                                      <button class="btn btn-secondary" type="submit"><i class='fa fa-search'></i></button>
+                                    </span>
+                                  </div>
+                                </form>
                               </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+              <div class="modal fade" id="modalPin" tabindex="-1" role="dialog" aria-labelledby="modalPin">
+                <div class="modal-dialog modal-sm" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="myModalLabel">Masukkan pin</h4>
+                    </div>
+                    <form id=frmpn method=post action='?a=exec-peminjaman-barang-kembali'>
+                    <div class="modal-body">
+                        <input type=password name=pn class='form-control' id='kpn'>
+                        <input type=hidden name=id id='kid'>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary" onclick="$('#frmpn').submit()">Lanjutkan</button>
+                    </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <div class="modal fade" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="modalDetail">
+                <div class="modal-dialog modal-lg" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="myModalLabel">Detail Peminjaman</h4>
+                    </div>
+                    <div class="modal-body" id=detailDataPeminjaman>
+                        <table>
+                            <tr>
+                                <td>Nama Barang</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Nama Peminjam</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Penanggung Jawab</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Instansi</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Waktu Pinjam</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Waktu Kembali</td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <script type=text/javascript>
+                function transaksiKembali(frm){
+                  $('#modalPin').on('shown.bs.modal',function(evt){
+                    $('#kpn').focus();
+                  });
+                  $('#modalPin').modal({
+                    keyboard: false
+                  });
+                  $('#kid').val(frm);
+                }
+                function detailPeminjaman(id){
+                  $('#detailDataPeminjaman').load('?a=view-peminjaman-barang-detail&id='+id);
+                  $('#modalDetail').modal({
+                    keyboard: false
+                  });
 
+                }
+              </script>
 <?php
 require_once('_footer.php');
  ?>

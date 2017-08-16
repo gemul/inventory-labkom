@@ -1,7 +1,7 @@
 <?php
 if(isset($_GET['a'])){
   $sect=substr($_GET['a'],0,4);
-  $cont=substr($_GET['a'],5,24);
+  $cont=substr($_GET['a'],5,64);
 }else{
   $sect='view';
   $cont='dashboard';
