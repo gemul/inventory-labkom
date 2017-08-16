@@ -3,7 +3,7 @@ require_once('_header.php');
  ?>
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Peminjaman Barang</h1>
+                    <h1 class="page-header">Peminjaman Proyektor</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -27,44 +27,10 @@ require_once('_header.php');
                             //   }
                             // }
                           </script>
-                          <form role="form" action='?a=exec-peminjaman-barang-save' method='post'>
+                          <form role="form" action='?a=exec-peminjaman-proyektor-save' method='post'>
                               <div class="form-group">
                                   <label>Waktu</label>
                                   <input name='waktuPinjam' class="form-control" id='datetimepicker' value='<?=date('Y-m-d h:i:s');?>'>
-                              </div>
-                              <div class="form-group">
-                                  <label>Nama Barang</label><br>
-                                  <input name='namaBarang' id='namaBarang' class="typeahead form-control" placeholder="Masukkan nama barang" autofocus="autofocus">
-                                  <script type="text/javascript">
-                                  /*
-                                    $(document).ready(function(){
-                                        // Defining the local dataset
-                                        var cars = ['Proyektor', 'Laptop', 'Obeng','Layar','Stop Kontak','Mouse','Keyboard','Router'];
-
-                                        // Constructing the suggestion engine
-                                        var cars = new Bloodhound({
-                                            datumTokenizer: Bloodhound.tokenizers.whitespace,
-                                            queryTokenizer: Bloodhound.tokenizers.whitespace,
-                                            local: cars
-                                        });
-
-                                        // Initializing the typeahead
-                                        $('#namaBarang').typeahead({
-                                            hint: true,
-                                            highlight: true,
-                                            minLength: 1
-                                        },
-                                        {
-                                            name: 'cars',
-                                            source: cars
-                                        });
-                                        $("#namaBarang").focus();
-                                    });*/
-                                    </script>
-                              </div>
-                              <div class="form-group">
-                                  <label>Jumlah</label>
-                                  <input name='jumlah' class="form-control" value="1" type=number>
                               </div>
                               <div class="form-group">
                                   <label>Nama Peminjam</label>
@@ -117,7 +83,6 @@ require_once('_header.php');
                                 <table class="table table-striped table-bordered table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Nama Barang</th>
                                             <th>Peminjam</th>
                                             <th>Wkt Pinjam</th>
                                             <th></th>
@@ -125,21 +90,19 @@ require_once('_header.php');
                                     </thead>
                                     <tbody>
                                       <?php
-                                      $belumKembali=$db->fetch("select * from peminjamanbarang where waktuKembali is NULL order by waktupinjam desc");
+                                      $belumKembali=$db->fetch("select * from peminjamanproyektor where waktuKembali is NULL order by waktupinjam desc");
                                       foreach($belumKembali as $item){
                                         echo "
                                          <tr>
-                                             <td>$item[namaBarang]</td>
                                              <td>$item[namaPeminjam]</td>
                                              <td>".$item['waktuPinjam']."</td>
                                              <td>
-                                                 <a onclick='detailPeminjaman(".$item['idpeminjamanbarang'].")' class='btn btn-primary btn-xs'>Detail</a>
-                                                 <a onclick='transaksiKembali(".$item['idpeminjamanbarang'].")' class='btn btn-success btn-xs'>Kembali</a>
+                                                 <a onclick='detailPeminjaman(".$item['idpeminjamanproyektor'].")' class='btn btn-primary btn-xs'>Detail</a>
+                                                 <a onclick='transaksiKembali(".$item['idpeminjamanproyektor'].")' class='btn btn-success btn-xs'>Kembali</a>
                                              </td>
                                          </tr>
                                         ";
                                       }
-
                                        ?>
                                     </tbody>
                                 </table>
@@ -165,7 +128,6 @@ require_once('_header.php');
                                 <table class="table table-striped table-bordered table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Nama Barang</th>
                                             <th>Nama Peminjam</th>
                                             <th>Penanggung Jawab</th>
                                             <th>Instansi</th>
@@ -191,18 +153,17 @@ require_once('_header.php');
                                       }else{
                                         $find=" ";
                                       }
-                                      $belumKembali=$db->fetch("select * from peminjamanbarang $find order by $sort limit ".(($pg-1)*40).",40");
+                                      $belumKembali=$db->fetch("select * from peminjamanproyektor $find order by $sort limit ".(($pg-1)*40).",40");
                                       foreach($belumKembali as $item){
                                         echo "
                                          <tr>
-                                             <td>$item[namaBarang]</td>
                                              <td>$item[namaPeminjam]</td>
                                              <td>$item[penanggungJawab]</td>
                                              <td>$item[instansi]</td>
                                              <td>".$item['waktuPinjam']."</td>
                                              <td>".$item['waktuKembali']."</td>
                                              <td>
-                                                 <a onclick='detailPeminjaman(".$item['idpeminjamanbarang'].")' class='btn btn-primary btn-xs'>Detail</a>
+                                                 <a onclick='detailPeminjaman(".$item['idpeminjamanproyektor'].")' class='btn btn-primary btn-xs'>Detail</a>
                                              </td>
                                          </tr>
                                         ";
@@ -218,7 +179,7 @@ require_once('_header.php');
                               <div class='col-lg-2'>Halaman
                                 <select class="form-control" onchange="paging(this)">
                                   <?php
-                                  $jumlah=$db->fetch("select count(idpeminjamanbarang) as jml from peminjamanbarang");
+                                  $jumlah=$db->fetch("select count(idpeminjamanproyektor) as jml from peminjamanproyektor");
                                   $jumlah=ceil($jumlah[0]['jml']/40);
                                   for($i=1;$i<=$jumlah;$i++){
                                     echo "<option ";
@@ -229,7 +190,7 @@ require_once('_header.php');
                                 </select>
                                 <script type=text/javascript>
                                 function paging(e){
-                                  window.location='?a=view-peminjaman-barang&pg='+e.value+"<?php if(isset($_GET['s']))echo "&s=".$_GET['s'];?><?php if(isset($_GET['f']))echo "&f=".$_GET['f'];?>";
+                                  window.location='?a=view-peminjaman-proyektor&pg='+e.value+"<?php if(isset($_GET['s']))echo "&s=".$_GET['s'];?><?php if(isset($_GET['f']))echo "&f=".$_GET['f'];?>";
                                 }
                                 </script>
                               </div>
@@ -245,13 +206,13 @@ require_once('_header.php');
                                 <script type=text/javascript>
                                 <?php if(isset($_GET['s']))echo "$('#sortTable').val('".$_GET['s']."');";?>
                                 function sortTable(e){
-                                  window.location='?a=view-peminjaman-barang&s='+e.value+"<?php if(isset($_GET['f']))echo "&f=".$_GET['f'];?>";
+                                  window.location='?a=view-peminjaman-proyektor&s='+e.value+"<?php if(isset($_GET['f']))echo "&f=".$_GET['f'];?>";
                                 }
                                 </script>
                               </div>
                               <div class='col-lg-2'>Cari
                                 <form method=get action=''>
-                                  <input type="hidden" name='a' value='view-peminjaman-barang'>
+                                  <input type="hidden" name='a' value='view-peminjaman-proyektor'>
                                   <div class="input-group">
                                     <input type="text" class="form-control" placeholder="Cari..." name='f' <?php if(isset($_GET['f']))echo "value='".$_GET['f']."'";?>>
                                     <span class="input-group-btn">
@@ -272,7 +233,7 @@ require_once('_header.php');
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                       <h4 class="modal-title" id="myModalLabel">Masukkan pin</h4>
                     </div>
-                    <form id=frmpn method=post action='?a=exec-peminjaman-barang-kembali'>
+                    <form id=frmpn method=post action='?a=exec-peminjaman-proyektor-kembali'>
                     <div class="modal-body">
                         <input type=password name=pn class='form-control' id='kpn'>
                         <input type=hidden name=id id='kid'>
@@ -294,7 +255,7 @@ require_once('_header.php');
                     <div class="modal-body" id=detailDataPeminjaman>
                         <table>
                             <tr>
-                                <td>Nama Barang</td>
+                                <td>Nama proyektor</td>
                                 <td></td>
                             </tr>
                             <tr>
@@ -333,7 +294,7 @@ require_once('_header.php');
                   $('#kid').val(frm);
                 }
                 function detailPeminjaman(id){
-                  $('#detailDataPeminjaman').load('?a=view-peminjaman-barang-detail&id='+id);
+                  $('#detailDataPeminjaman').load('?a=view-peminjaman-proyektor-detail&id='+id);
                   $('#modalDetail').modal({
                     keyboard: false
                   });

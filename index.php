@@ -1,8 +1,16 @@
 <?php
-if(isset($_GET['view'])){
-  $view=substr($_GET['view'],0,20);
+if(isset($_GET['a'])){
+  $sect=substr($_GET['a'],0,4);
+  $cont=substr($_GET['a'],5,64);
 }else{
-  $view='dashboard';
+  $sect='view';
+  $cont='dashboard';
 }
-include('view/'.$view.'.php');
+if(file_exists($sect.'/'.$cont.'.php')){
+  require_once('lib/cynetAppAssets/CyPdo.php');
+  $db=new CyPdo();
+  include($sect.'/'.$cont.'.php');
+}else{
+  echo "Not Exist";
+}
 ?>
