@@ -4,6 +4,10 @@ $item=$data[0];
  ?>
     <table>
         <tr>
+            <td>Proyektor</td>
+            <td>: <b><?=$item['proyektor']?></b></td>
+        </tr>
+        <tr>
             <td>Nama Peminjam</td>
             <td>: <b><?=$item['namaPeminjam']?></b></td>
         </tr>

@@ -120,6 +120,7 @@ require_once('_header.php');
                                             <th>Nama Barang</th>
                                             <th>Peminjam</th>
                                             <th>Wkt Pinjam</th>
+                                            <th>Durasi</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -132,6 +133,7 @@ require_once('_header.php');
                                              <td>$item[namaBarang]</td>
                                              <td>$item[namaPeminjam]</td>
                                              <td>".$item['waktuPinjam']."</td>
+                                             <td>".floor(abs(time()-strtotime($item['waktuPinjam']))/(60*60*24))." Hari</td>
                                              <td>
                                                  <a onclick='detailPeminjaman(".$item['idpeminjamanbarang'].")' class='btn btn-primary btn-xs'>Detail</a>
                                                  <a onclick='transaksiKembali(".$item['idpeminjamanbarang'].")' class='btn btn-success btn-xs'>Kembali</a>
@@ -171,6 +173,7 @@ require_once('_header.php');
                                             <th>Instansi</th>
                                             <th>Waktu Pinjam</th>
                                             <th>Waktu Kembali</th>
+                                            <th>Durasi</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -193,6 +196,7 @@ require_once('_header.php');
                                       }
                                       $belumKembali=$db->fetch("select * from peminjamanbarang $find order by $sort limit ".(($pg-1)*40).",40");
                                       foreach($belumKembali as $item){
+                                        $durasi=(!empty($item['waktuKembali']))?floor(abs(strtotime($item['waktuKembali'])-strtotime($item['waktuPinjam']))/(60*60*24)):0;
                                         echo "
                                          <tr>
                                              <td>$item[namaBarang]</td>
@@ -201,6 +205,7 @@ require_once('_header.php');
                                              <td>$item[instansi]</td>
                                              <td>".$item['waktuPinjam']."</td>
                                              <td>".$item['waktuKembali']."</td>
+                                             <td>".$durasi." Hari</td>
                                              <td>
                                                  <a onclick='detailPeminjaman(".$item['idpeminjamanbarang'].")' class='btn btn-primary btn-xs'>Detail</a>
                                              </td>

@@ -33,6 +33,18 @@ require_once('_header.php');
                                   <input name='waktuPinjam' class="form-control" id='datetimepicker' value='<?=date('Y-m-d h:i:s');?>'>
                               </div>
                               <div class="form-group">
+                                  <label>Proyektor</label>
+                                  <select name='proyektor' class="form-control">
+                                    <option value='' selected=selected>--Pilih Proyektor--</option>
+                                    <option value='LCD 01'>LCD 01</option>
+                                    <option value='LCD 02'>LCD 02</option>
+                                    <option value='LCD 03'>LCD 03</option>
+                                    <option value='LCD 04'>LCD 04</option>
+                                    <option value='LCD 05'>LCD 05</option>
+                                    <option value='LCD 06'>LCD 06</option>
+                                  </select>
+                              </div>
+                              <div class="form-group">
                                   <label>Nama Peminjam</label>
                                   <input name='namaPeminjam' class="form-control">
                               </div>
@@ -83,8 +95,10 @@ require_once('_header.php');
                                 <table class="table table-striped table-bordered table-hover">
                                     <thead>
                                         <tr>
+                                            <th>proyektor</th>
                                             <th>Peminjam</th>
                                             <th>Wkt Pinjam</th>
+                                            <th>Durasi</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -94,8 +108,10 @@ require_once('_header.php');
                                       foreach($belumKembali as $item){
                                         echo "
                                          <tr>
+                                             <td>$item[proyektor]</td>
                                              <td>$item[namaPeminjam]</td>
                                              <td>".$item['waktuPinjam']."</td>
+                                             <td>".floor(abs(time()-strtotime($item['waktuPinjam']))/(60*60*24))." Hari</td>
                                              <td>
                                                  <a onclick='detailPeminjaman(".$item['idpeminjamanproyektor'].")' class='btn btn-primary btn-xs'>Detail</a>
                                                  <a onclick='transaksiKembali(".$item['idpeminjamanproyektor'].")' class='btn btn-success btn-xs'>Kembali</a>
@@ -128,6 +144,7 @@ require_once('_header.php');
                                 <table class="table table-striped table-bordered table-hover">
                                     <thead>
                                         <tr>
+                                            <th>proyektor</th>
                                             <th>Nama Peminjam</th>
                                             <th>Penanggung Jawab</th>
                                             <th>Instansi</th>
@@ -155,13 +172,16 @@ require_once('_header.php');
                                       }
                                       $belumKembali=$db->fetch("select * from peminjamanproyektor $find order by $sort limit ".(($pg-1)*40).",40");
                                       foreach($belumKembali as $item){
+                                        $durasi=(!empty($item['waktuKembali']))?floor(abs(strtotime($item['waktuKembali'])-strtotime($item['waktuPinjam']))/(60*60*24)):0;
                                         echo "
                                          <tr>
+                                             <td>$item[proyektor]</td>
                                              <td>$item[namaPeminjam]</td>
                                              <td>$item[penanggungJawab]</td>
                                              <td>$item[instansi]</td>
                                              <td>".$item['waktuPinjam']."</td>
                                              <td>".$item['waktuKembali']."</td>
+                                             <td>".$durasi." Hari</td>
                                              <td>
                                                  <a onclick='detailPeminjaman(".$item['idpeminjamanproyektor'].")' class='btn btn-primary btn-xs'>Detail</a>
                                              </td>
