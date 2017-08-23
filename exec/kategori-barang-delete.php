@@ -20,6 +20,9 @@ if(count($cekPin)>=1){
       }
       echo "<script type=text/javascript>alert('Data dihapus');</script>";
       echo "<script type=text/javascript>window.location='?a=view-kategori-barang'</script>";
+    }else{
+      echo "<script type=text/javascript>alert('Tidak bisa dihapus. Kategori sedang digunakan');</script>";
+      echo "<script type=text/javascript>window.history.back();</script>";
     }
   }
 }else{

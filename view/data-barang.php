@@ -3,7 +3,7 @@ require_once('_header.php');
  ?>
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Kategori Barang</h1>
+                    <h1 class="page-header">Data Barang</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
