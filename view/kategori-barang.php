@@ -73,10 +73,10 @@ require_once('_header.php');
                 <div class="col-lg-8 col-md-8">
                     <div class="panel panel-success">
                         <div class="panel-heading">
-                            Peminjaman Belum Kembali
+                            Daftar Kategori Barang
                         </div>
                         <!-- /.panel-heading -->
-                        <div class="panel-body">
+                        <div class="panel-body" style="height:400px;overflow-y:scroll;">
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered table-hover">
                                     <thead>

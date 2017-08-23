@@ -73,10 +73,10 @@ require_once('_header.php');
                 <div class="col-lg-8 col-md-8">
                     <div class="panel panel-success">
                         <div class="panel-heading">
-                            Peminjaman Belum Kembali
+                            Daftar Data Barang
                         </div>
                         <!-- /.panel-heading -->
-                        <div class="panel-body">
+                        <div class="panel-body" style="height:400px;overflow-y:scroll;">
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered table-hover">
                                     <thead>
@@ -84,7 +84,8 @@ require_once('_header.php');
                                             <th>Nama Barang</th>
                                             <th>Kategori</th>
                                             <th>Deskripsi</th>
-                                            <th></th>
+                                            <th style=width:120px>Transaksi</th>
+                                            <th style=width:120px>Opsi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -96,6 +97,10 @@ require_once('_header.php');
                                              <td>$item[namaBarang]</td>
                                              <td>$item[nama]</td>
                                              <td>".substr($item['deskripsi'],0,50)."</td>
+                                             <td>
+                                             <a onclick='transaksiMasuk(".$item['idbarang'].")' class='btn btn-success btn-xs'>Masuk</a>
+                                             <a onclick='transaksiKeluar(".$item['idbarang'].")' class='btn btn-success btn-xs'>Keluar</a>
+                                             </td>
                                              <td>
                                                <a onclick=\"editBarang(".$item['idbarang'].",'$item[namaBarang]','$item[idkategori]','$item[deskripsi]')\" class='btn btn-primary btn-xs'>Edit</a>
                                                <a onclick='hapusBarang(".$item['idbarang'].")' class='btn btn-danger btn-xs'>Hapus</a>
