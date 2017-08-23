@@ -14,7 +14,11 @@
 <script>
 
 </script>
-
+<style>
+.twitter-typeahead {
+  width:100%;
+}
+</style>
 
 
 </body>
