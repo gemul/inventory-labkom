@@ -7,19 +7,19 @@ if(count($cekPin)>=1){
     echo "<script type=text/javascript>alert('Data Tidak Lengkap');</script>";
     echo "<script type=text/javascript>window.history.back();</script>";
   }else{
-    $cek=$db->fetch("select * from barang where idkategori='".$_POST['id']."' limit 0,1");
+    $cek=$db->fetch("select * from transaksi where idbarang='".$_POST['id']."' limit 0,1");
     if(count($cek)==0){
-      $cekTA=$db->fetch("select * from kategori where idkategori='".$_POST['id']."'");
-      $sql=$db->submit("delete from kategori where idkategori=:f4",
+      $cekTA=$db->fetch("select * from barang where idbarang='".$_POST['id']."'");
+      $sql=$db->submit("delete from barang where idbarang=:f4",
       Array(
         'f4'=>$_POST['id']
         )
       );
       if(count($cekTA)>=1){
-        $sql2=$db->submit("delete from typeahead where konten='".$cekTA[0]['nama']."' and kategori='kategori'");
+        $sql2=$db->submit("delete from typeahead where konten='".$cekTA[0]['namaBarang']."' and kategori='barang'");
       }
       echo "<script type=text/javascript>alert('Data dihapus');</script>";
-      echo "<script type=text/javascript>window.location='?a=view-kategori-barang'</script>";
+      echo "<script type=text/javascript>window.location='?a=view-data-barang'</script>";
     }else{
       echo "<script type=text/javascript>alert('Tidak bisa dihapus. Kategori sedang digunakan');</script>";
       echo "<script type=text/javascript>window.history.back();</script>";

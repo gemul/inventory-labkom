@@ -96,7 +96,7 @@
                             <a href="?a=view-dashboard"><i class="fa fa-dashboard fa-fw"></i> Depan</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-suitcase fa-fw"></i> Stok<span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-suitcase fa-fw"></i> Master Barang<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
                                     <a href="?a=view-kategori-barang">Kategori Barang</a>
@@ -104,6 +104,11 @@
                                 <li>
                                     <a href="?a=view-data-barang">Data Barang</a>
                                 </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-file-text fa-fw"></i> Stok<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
                                 <li>
                                     <a href="?a=view-transaksi-masuk">Transaksi Masuk</a>
                                 </li>
