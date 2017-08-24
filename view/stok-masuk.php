@@ -245,65 +245,21 @@ require_once('_header.php');
                   <div class="modal-content">
                     <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                      <h4 class="modal-title" id="myModalLabel">Detail Peminjaman</h4>
+                      <h4 class="modal-title" id="myModalLabel">Detail Transaksi</h4>
                     </div>
-                    <div class="modal-body" id=detailDataPeminjaman>
-                        <table>
-                            <tr>
-                                <td>Nama Barang</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>Nama Peminjam</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>Penanggung Jawab</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>Instansi</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>Waktu Pinjam</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>Waktu Kembali</td>
-                                <td></td>
-                            </tr>
-                        </table>
+                    <div class="modal-body" id=detailTransaksi>
                     </div>
                   </div>
                 </div>
               </div>
               <script type=text/javascript>
-                function editBarang(id,nama,idkategori,deskripsi){
-                  $('#ed-heading').html('Edit ('+nama+')');
-                  $('#namaBarang').val(nama);
-                  $('#idkategori').val(idkategori);
-                  $('#deskripsi').val(deskripsi);
-                  $('#ed-form').attr({'action':'?a=exec-data-barang-update&id='+id});
-                  $('#ed-reset').show();
-                }
-                function cancelEdit(){
-                  $('#ed-heading').html('Tambah Barang');
-                  $('#namaBarang').val('');
-                  $('#idkategori').val('');
-                  $('#deskripsi').val('');
-                  $('#ed-form').attr({'action':'?a=exec-data-barang-save'});
-                  $('#ed-reset').hide();
-                }
-                function hapusBarang(id){
-                  $('#modalPin').on('shown.bs.modal',function(evt){
-                    $('#kpn').focus();
-                  });
-                  $('#modalPin').modal({
-                    keyboard: false
-                  });
-                  $('#kid').val(id);
-                }
+              function detailTransaksi(id){
+                $('#detailTransaksi').load('?a=view-stok-masuk-detail&id='+id);
+                $('#modalDetail').modal({
+                  keyboard: false
+                });
+
+              }
               </script>
 <?php
 require_once('_footer.php');
