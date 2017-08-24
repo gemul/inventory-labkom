@@ -55,7 +55,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">SB Admin v2.0</a>
+                <a class="navbar-brand" href="index.html">Aplikasi Labkom Yadika Bangil</a>
             </div>
             <!-- /.navbar-header -->
 
@@ -110,10 +110,10 @@
                             <a href="#"><i class="fa fa-file-text fa-fw"></i> Stok<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="?a=view-transaksi-masuk">Transaksi Masuk</a>
+                                    <a href="?a=view-stok-masuk">Transaksi Masuk</a>
                                 </li>
                                 <li>
-                                    <a href="?a=view-transaksi-keluar">Transaksi Keluar</a>
+                                    <a href="?a=view-stok-keluar">Transaksi Keluar</a>
                                 </li>
                             </ul>
                         </li>
