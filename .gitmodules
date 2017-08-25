@@ -1,6 +1,6 @@
-[submodule "uielement/bootstrap-datetimepicker"]
-	path = uielement/bootstrap-datetimepicker
-	url = https://github.com/smalot/bootstrap-datetimepicker.git
 [submodule "lib/PHPExcel"]
 	path = lib/PHPExcel
 	url = https://github.com/PHPOffice/PHPExcel.git
+[submodule "uielement/bootstrap-datetimepicker"]
+	path = uielement/bootstrap-datetimepicker
+	url = https://github.com/smalot/bootstrap-datetimepicker.git

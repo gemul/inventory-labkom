@@ -156,7 +156,20 @@ if($filterText!=''){
                                 <?php if(!empty($_GET['j']))echo "<input type='hidden' name='j' value='".$_GET['j']."'>";?>
                                 <?php if(!empty($_GET['s']))echo "<input type='hidden' name='s' value='".$_GET['s']."'>";?>
                                 <div class="input-group">
-                                  <input type="text" class="form-control" placeholder="Cari..." name='f' <?php if(!empty($_GET['f']))echo "value='".$_GET['f']."'";?>>
+                                  <input type="text" class="form-control" placeholder="Cari..." name='f' <?php if(!empty($_GET['f']))echo "value='".$_GET['f']."'";?> id=searchinput>
+                                  <script type=text/javascript>
+                                  $(function () {
+                                      $("#searchinput")
+                                          .popover({
+                                            title: 'Pencarian',
+                                            placement:'top',
+                                            content: "untuk memfilter tanggal, gunakan format YYYY-MM-DD (2017-01 untuk januari 2017, 2017-01-01 untuk tgl 1 januari 2017)"
+                                           })
+                                          .blur(function () {
+                                              $(this).popover('hide');
+                                          });
+                                  });
+                                  </script>
                                   <span class="input-group-btn">
                                     <button class="btn btn-secondary" type="submit"><i class='fa fa-search'></i></button>
                                   </span>
@@ -167,7 +180,23 @@ if($filterText!=''){
                               <button class='btn btn-primary' onclick='unduhCsv()'>Unduh csv <i class='glyphicon glyphicon-download'></i></button>
                               <script type=text/javascript>
                               function unduhCsv(){
+                                <?php if(empty($_GET['f'])): ?>
+                                $('#modalAlert').modal('show');
+                                <?php else:?>
                                 window.location="?a=exec-rekap-transaksi-download-csv<?php if(!empty($_GET['f']))echo "&f=".$_GET['f'];?><?php if(!empty($_GET['j']))echo "&j=".$_GET['j'];?><?php if(!empty($_GET['s']))echo "&s=".$_GET['s'];?>";
+                                <?php endif;?>
+                              }
+                              </script>
+                            </div>
+                            <div class='col-lg-2'>
+                              <button class='btn btn-primary' onclick='unduhXls()'>Unduh xls <i class='glyphicon glyphicon-download'></i></button>
+                              <script type=text/javascript>
+                              function unduhXls(){
+                                <?php if(empty($_GET['f'])): ?>
+                                $('#modalAlert').modal('show');
+                                <?php else:?>
+                                window.location="?a=exec-rekap-transaksi-download-xls<?php if(!empty($_GET['f']))echo "&f=".$_GET['f'];?><?php if(!empty($_GET['j']))echo "&j=".$_GET['j'];?><?php if(!empty($_GET['s']))echo "&s=".$_GET['s'];?>";
+                                <?php endif;?>
                               }
                               </script>
                             </div>
@@ -178,22 +207,24 @@ if($filterText!=''){
                 </div>
             </div>
 
-              <div class="modal fade" id="modalPin" tabindex="-1" role="dialog" aria-labelledby="modalPin">
-                <div class="modal-dialog modal-sm" role="document">
+              <div class="modal fade" id="modalAlert" tabindex="-1" role="dialog" aria-labelledby="modalAlert">
+                <div class="modal-dialog modal-md" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                      <h4 class="modal-title" id="myModalLabel">Masukkan pin</h4>
+                      <h4 class="modal-title" id="ModalAlertLabel">Filter dahulu</h4>
                     </div>
-                    <form id=frmpn method=post action='?a=exec-data-barang-delete'>
                     <div class="modal-body">
-                        <input type=password name=pn class='form-control' id='kpn'>
-                        <input type=hidden name=id id='kid'>
+                      Data terlalu banyak. Gunakan filter pencarian dibawah sebelum mengunduh file.<br>
+                      <u>Contoh:</u><br>
+                      Unduh data untuk bulan Januari 2017, kata kuncinya<br>
+                      <b>2017-01</b><br>
+                      Unduh data untuk tanggal 17 Agustus 2017, kata kuncinya<br>
+                      <b>2017-08-17</b>
                     </div>
                     <div class="modal-footer">
-                      <button type="submit" class="btn btn-primary" onclick="$('#frmpn').submit()">Lanjutkan</button>
+                      <button type="submit" class="btn btn-primary" data-dismiss='modal'>Tutup</button>
                     </div>
-                    </form>
                   </div>
                 </div>
               </div>
