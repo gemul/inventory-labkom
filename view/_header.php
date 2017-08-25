@@ -30,8 +30,8 @@
     <script src="uielement/typeahead/typeahead.bundle.js"></script>
     <script src="uielement/custom/custom.js"></script>
     <link rel=stylesheet href="uielement/typeahead/typeahead.css">
-    <script src="uielement/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
-    <link rel=stylesheet href='uielement/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css' />
+    <script src="uielement/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <link rel=stylesheet href='uielement/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css' />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
