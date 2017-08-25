@@ -164,7 +164,12 @@ if($filterText!=''){
                               </form>
                             </div>
                             <div class='col-lg-2'>
-                              <button class='btn btn-primary'>Unduh csv <i class='glyphicon glyphicon-download'></i></button>
+                              <button class='btn btn-primary' onclick='unduhCsv()'>Unduh csv <i class='glyphicon glyphicon-download'></i></button>
+                              <script type=text/javascript>
+                              function unduhCsv(){
+                                window.location="?a=exec-rekap-transaksi-download-csv<?php if(!empty($_GET['f']))echo "&f=".$_GET['f'];?><?php if(!empty($_GET['j']))echo "&j=".$_GET['j'];?><?php if(!empty($_GET['s']))echo "&s=".$_GET['s'];?>";
+                              }
+                              </script>
                             </div>
                           </div>
                         </div>
