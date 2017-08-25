@@ -190,7 +190,7 @@ require_once('_header.php');
                                         $sort="waktuPinjam desc";
                                       }
                                       if(isset($_GET['f'])){
-                                        $find=" where namaPeminjam like '%".$_GET['f']."%' or penanggungJawab like '%".$_GET['f']."%' or waktuPinjam like '%".$_GET['f']."%' or waktuKembali like '%".$_GET['f']."%' ";
+                                        $find=" and namaPeminjam like '%".$_GET['f']."%' or penanggungJawab like '%".$_GET['f']."%' or waktuPinjam like '%".$_GET['f']."%' or waktuKembali like '%".$_GET['f']."%' ";
                                       }else{
                                         $find=" ";
                                       }
