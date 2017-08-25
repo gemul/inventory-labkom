@@ -5,7 +5,12 @@ $item=$data[0];
     <table>
         <tr>
           <td>Transaksi</td>
-          <td>: <b><?=$item['jenis']?></b></td>
+          <td>: <b><?php
+          if($item['jenis']=='masuk'){
+            echo "<i class='glyphicon text-success glyphicon-log-in'></i> ".$item['jenis'];
+          }else{
+            echo "<i class='glyphicon text-danger glyphicon-log-out'></i> ".$item['jenis'];
+          }?></b></td>
         </tr>
         <tr>
           <td>Waktu</td>

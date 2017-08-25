@@ -115,6 +115,12 @@
                                 <li>
                                     <a href="?a=view-stok-keluar">Transaksi Keluar</a>
                                 </li>
+                                <li>
+                                    <a href="?a=view-rekap-transaksi">Rekap Transaksi</a>
+                                </li>
+                                <li>
+                                    <a href="?a=view-rekap-stok">Rekap Stok</a>
+                                </li>
                             </ul>
                         </li>
                         <li>

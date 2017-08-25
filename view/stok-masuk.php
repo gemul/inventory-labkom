@@ -132,18 +132,18 @@ require_once('_header.php');
                                     </thead>
                                     <tbody>
                                       <?php
-                                      if(!isset($_GET['p'])){
-                                        $pg=1;
-                                      }else{
+                                      if(!empty($_GET['p'])){
                                         $pg=$_GET['p'];
+                                      }else{
+                                        $pg=1;
                                       }
-                                      if(isset($_GET['s'])){
+                                      if(!empty($_GET['s'])){
                                         $sort=substr(explode('-',$_GET['s'])[0],0,20)." ".substr(explode('-',$_GET['s'])[1],0,4);
                                       }else{
                                         $sort="waktu desc";
                                       }
-                                      if(isset($_GET['f'])){
-                                        $find=" and namaBarang like '%".$_GET['f']."%' or waktu like '%".$_GET['f']."%' or catatan like '%".$_GET['f']."%' ";
+                                      if(!empty($_GET['f'])){
+                                        $find=" and (namaBarang like '%".$_GET['f']."%' or waktu like '%".$_GET['f']."%' or catatan like '%".$_GET['f']."%') ";
                                       }else{
                                         $find=" ";
                                       }
@@ -156,7 +156,7 @@ require_once('_header.php');
                                              <td>$item[qty]</td>
                                              <td>".substr($item['catatan'],0,50)."</td>
                                              <td>
-                                               <a onclick='detailTransaksi(".$item['idbarang'].")' class='btn btn-primary btn-xs'>detail</a>
+                                               <a onclick='detailTransaksi(".$item['idtransaksi'].")' class='btn btn-primary btn-xs'>detail</a>
                                              </td>
                                          </tr>
                                         ";
@@ -178,14 +178,14 @@ require_once('_header.php');
                                 $jumlah=ceil($jumlah[0]['jml']/40);
                                 for($i=1;$i<=$jumlah;$i++){
                                   echo "<option ";
-                                  if(isset($_GET['pg']) && $i==$_GET['pg'])echo " selected=selected ";
+                                  if(!empty($_GET['pg']) && $i==$_GET['pg'])echo " selected=selected ";
                                   echo "value=".$i.">Page ".$i."</option>";
                                 }
                                  ?>
                               </select>
                               <script type=text/javascript>
                               function paging(e){
-                                window.location='?a=view-stok-masuk&pg='+e.value+"<?php if(isset($_GET['s']))echo "&s=".$_GET['s'];?><?php if(isset($_GET['f']))echo "&f=".$_GET['f'];?>";
+                                window.location='?a=view-stok-masuk&pg='+e.value+"<?php if(!empty($_GET['s']))echo "&s=".$_GET['s'];?><?php if(!empty($_GET['f']))echo "&f=".$_GET['f'];?>";
                               }
                               </script>
                             </div>
@@ -197,9 +197,9 @@ require_once('_header.php');
                                 <option value='namaBarang-desc'>Nama Barang (Z-A)</option>
                               </select>
                               <script type=text/javascript>
-                              <?php if(isset($_GET['s']))echo "$('#sortTable').val('".$_GET['s']."');";?>
+                              <?php if(!empty($_GET['s']))echo "$('#sortTable').val('".$_GET['s']."');";?>
                               function sortTable(e){
-                                window.location='?a=view-stok-masuk&s='+e.value+"<?php if(isset($_GET['f']))echo "&f=".$_GET['f'];?>";
+                                window.location='?a=view-stok-masuk&s='+e.value+"<?php if(!empty($_GET['f']))echo "&f=".$_GET['f'];?>";
                               }
                               </script>
                             </div>
@@ -207,7 +207,7 @@ require_once('_header.php');
                               <form method=get action=''>
                                 <input type="hidden" name='a' value='view-stok-masuk'>
                                 <div class="input-group">
-                                  <input type="text" class="form-control" placeholder="Cari..." name='f' <?php if(isset($_GET['f']))echo "value='".$_GET['f']."'";?>>
+                                  <input type="text" class="form-control" placeholder="Cari..." name='f' <?php if(!empty($_GET['f']))echo "value='".$_GET['f']."'";?>>
                                   <span class="input-group-btn">
                                     <button class="btn btn-secondary" type="submit"><i class='fa fa-search'></i></button>
                                   </span>

@@ -3,115 +3,18 @@ require_once('_header.php');
  ?>
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Transaksi Stok Keluar</h1>
+                    <h1 class="page-header">Rekapitulasi Transaksi Stok</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
             <div class="row">
-                <div class="col-lg-4 col-md-4">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading" id=ed-heading>
-                            Entri Stok Keluar
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                          <script type=text/javascript>
-                            // function preSubmit(){
-                            //   var pin=prompt("Keluarkan pin");
-                            //   if(pin && pin!=''){
-                            //     $('#formPn').val(pin);
-                            //     return true;
-                            //   }else{
-                            //     return false;
-                            //   }
-                            // }
-                          </script>
-                          <form role="form" action='?a=exec-stok-keluar-save' method='post' id=ed-form>
-                              <div class="form-group">
-                                  <label>Waktu</label>
-                                  <input name='waktu' class="form-control" id='datetimepicker' value='<?=date('Y-m-d h:i:s');?>'>
-                              </div>
-                              <script type="text/javascript">
-                               $("#datetimepicker").datetimepicker({
-                                  format: 'yyyy-mm-dd hh:ii:ss',
-                                  autoclose: true,
-                                  todayBtn: true,
-                                  pickerPosition: "top"
-                               });
-                              </script>
-                              <div class="form-group">
-                                  <label>Kategori</label>
-                                  <select name='idkategori' class="form-control" autofocus='autofocus' onchange="loadBarang(this);">
-                                    <?php
-                                    echo "<option value='' selected=selected>-Pilih kategori-</option>";
-                                    $sql=$db->fetch("select * from kategori order by nama asc");
-                                    foreach($sql as $data){
-                                      echo "<option value=".$data['idkategori'].">".$data['nama']."</option>";
-                                    }
-                                     ?>
-                                  </select>
-                              </div>
-                              <div class="form-group">
-                                  <label>Barang</label>
-                                  <span id=listBarang>
-                                    <br>Pilih kategori
-                                  </span>
-                              </div>
-                              <div class="form-group">
-                                  <label>Jumlah</label>
-                                  <input name='qty' class="form-control" id='qty'>
-                              </div>
-                              <div class="form-group">
-                                  <label>Catatan</label><br>
-                                  <input name='catatan' id='catatan' class="form-control">
-                              </div>
-                              <div class="form-group">
-                                  <label>PIN</label>
-                                  <input name='pn' class="form-control" id='pn' type='password'>
-                              </div>
-                              <div class="form-group">
-                                  <button class='btn btn-primary'>Simpan</button>
-                                  <button type=reset onclick='cancelEdit()' class='btn btn-default' style=display:none; id=ed-reset>Batal</button>
-                              </div>
-                            </form>
-                        </div>
-
-                        <script type="text/javascript">
-                        function loadBarang(frm){
-                          if(frm.value==''){
-                            $('#listBarang').html("<br>Pilih kategori");
-                          }else{
-                            $.ajax({
-                              url:"?a=view-ajax-list-barang&id="+frm.value,
-                              type:'post',
-                              dataType:'html',
-                              beforeSend:function(e){
-                                $('#listBarang').html("<br>Memuat daftar barang...");
-                              },
-                              success:function(r){
-                                $('#listBarang').html(r);
-                              }
-                            });
-                          }
-                        }
-                         $("#datetimepicker").datetimepicker({
-                            format: 'yyyy-mm-dd hh:ii:ss',
-                            autoclose: true,
-                            todayBtn: true,
-                            pickerPosition: "top"
-                         });
-                        </script>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
-                </div>
-                <div class="col-lg-8 col-md-8">
+                <div class="col-lg-12 col-md-12">
                     <div class="panel panel-success">
                         <div class="panel-heading">
                           <div class='row'>
                             <div class='col-lg-8'>
-                              Daftar Stok Keluar
+                              Transaksi Stok
                             </div>
                             <div class='col-lg-4'>
                             </div>
@@ -124,6 +27,7 @@ require_once('_header.php');
                                     <thead>
                                         <tr>
                                             <th>Waktu</th>
+                                            <th>Keluar/Masuk</th>
                                             <th>Barang</th>
                                             <th>Jumlah</th>
                                             <th>Catatan</th>
@@ -142,16 +46,38 @@ require_once('_header.php');
                                       }else{
                                         $sort="waktu desc";
                                       }
-                                      if(!empty($_GET['f'])){
-                                        $find=" and (namaBarang like '%".$_GET['f']."%' or waktu like '%".$_GET['f']."%' or catatan like '%".$_GET['f']."%') ";
+                                      if(!empty($_GET['j']) || !empty($_GET['f'])){
+                                        $where="where ";
                                       }else{
-                                        $find=" ";
+                                        $where="";
                                       }
-                                      $stokKeluar=$db->fetch("select * from transaksi inner join barang using(idbarang) where jenis='keluar' $find order by $sort limit ".(($pg-1)*40).",40");
-                                      foreach($stokKeluar as $item){
+                                      if(!empty($_GET['j'])){
+                                        $where.="jenis='".$_GET['j']."' ";
+                                      }else{
+                                        $where.="";
+                                      }
+                                      if(!empty($_GET['j']) && !empty($_GET['f'])){
+                                        $where.=" and ";
+                                      }else{
+                                        $where.="";
+                                      }
+                                      if(!empty($_GET['f'])){
+                                        $where.=" (namaBarang like '%".$_GET['f']."%' or waktu like '%".$_GET['f']."%' or catatan like '%".$_GET['f']."%') ";
+                                      }else{
+                                        $where.=" ";
+                                      }
+                                      $stokMasuk=$db->fetch("select * from transaksi inner join barang using(idbarang) $where order by $sort limit ".(($pg-1)*40).",40");
+                                      foreach($stokMasuk as $item){
                                         echo "
                                          <tr>
                                              <td>$item[waktu]</td>
+                                             <td>";
+                                             if($item['jenis']=='masuk'){
+                                               echo "<i class='glyphicon text-success glyphicon-log-in'></i> ".$item['jenis'];
+                                             }else{
+                                               echo "<i class='glyphicon text-danger glyphicon-log-out'></i> ".$item['jenis'];
+                                             }
+                                             echo "</td>
                                              <td>$item[namaBarang]</td>
                                              <td>$item[qty]</td>
                                              <td>".substr($item['catatan'],0,50)."</td>
@@ -171,10 +97,10 @@ require_once('_header.php');
                         <!-- /.panel-body -->
                         <div class='panel-footer'>
                           <div class='row'>
-                            <div class='col-lg-3'>
+                            <div class='col-lg-2'>
                               <select class="form-control" onchange="paging(this)">
                                 <?php
-                                $jumlah=$db->fetch("select count(idtransaksi) as jml from transaksi where jenis='keluar'");
+                                $jumlah=$db->fetch("select count(idtransaksi) as jml from transaksi where jenis='masuk'");
                                 $jumlah=ceil($jumlah[0]['jml']/40);
                                 for($i=1;$i<=$jumlah;$i++){
                                   echo "<option ";
@@ -185,11 +111,11 @@ require_once('_header.php');
                               </select>
                               <script type=text/javascript>
                               function paging(e){
-                                window.location='?a=view-stok-keluar&pg='+e.value+"<?php if(!empty($_GET['s']))echo "&s=".$_GET['s'];?><?php if(!empty($_GET['f']))echo "&f=".$_GET['f'];?>";
+                                window.location='?a=view-rekap-transaksi&pg='+e.value+"<?php if(!empty($_GET['s']))echo "&s=".$_GET['s'];?><?php if(!empty($_GET['f']))echo "&f=".$_GET['f'];?><?php if(!empty($_GET['j']))echo "&j=".$_GET['j'];?>";
                               }
                               </script>
                             </div>
-                            <div class='col-lg-4'>
+                            <div class='col-lg-2'>
                               <select class="form-control" onchange="sortTable(this)" id=sortTable>
                                 <option value='waktu-desc'>Waktu (Z-A)</option>
                                 <option value='waktu-asc'>Waktu (A-Z)</option>
@@ -199,13 +125,27 @@ require_once('_header.php');
                               <script type=text/javascript>
                               <?php if(!empty($_GET['s']))echo "$('#sortTable').val('".$_GET['s']."');";?>
                               function sortTable(e){
-                                window.location='?a=view-stok-keluar&s='+e.value+"<?php if(!empty($_GET['f']))echo "&f=".$_GET['f'];?>";
+                                window.location='?a=view-rekap-transaksi&s='+e.value+"<?php if(!empty($_GET['f']))echo "&f=".$_GET['f'];?>";
                               }
                               </script>
                             </div>
-                            <div class='col-lg-4'>
+                            <div class='col-lg-2'>
+                              <select class="form-control" onchange="filterJenis(this)" id=filterJenis>
+                                <option value=''>-Semua-</option>
+                                <option value='masuk'><i class='glyphicon text-success glyphicon-log-in'></i> Masuk</option>
+                                <option value='keluar'><i class='glyphicon text-success glyphicon-log-out'></i> Keluar</option>
+                              </select>
+                              <script type=text/javascript>
+                              <?php if(!empty($_GET['j']))echo "$('#filterJenis').val('".$_GET['j']."');";?>
+                              function filterJenis(e){
+                                window.location='?a=view-rekap-transaksi&j='+e.value+"<?php if(!empty($_GET['f']))echo "&f=".$_GET['f'];?>";
+                              }
+                              </script>
+                            </div>
+                            <div class='col-lg-2'>
                               <form method=get action=''>
-                                <input type="hidden" name='a' value='view-stok-keluar'>
+                                <input type="hidden" name='a' value='view-rekap-transaksi'>
+                                <?php if(!empty($_GET['j']))echo "<input type='hidden' name='j' value='".$_GET['j']."'>";?>
                                 <div class="input-group">
                                   <input type="text" class="form-control" placeholder="Cari..." name='f' <?php if(!empty($_GET['f']))echo "value='".$_GET['f']."'";?>>
                                   <span class="input-group-btn">
@@ -254,7 +194,7 @@ require_once('_header.php');
               </div>
               <script type=text/javascript>
               function detailTransaksi(id){
-                $('#detailTransaksi').load('?a=view-stok-keluar-detail&id='+id);
+                $('#detailTransaksi').load('?a=view-rekap-transaksi-detail&id='+id);
                 $('#modalDetail').modal({
                   keyboard: false
                 });
