@@ -21,7 +21,7 @@ require_once('_header.php');
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
+                        <a href="?a=view-stok-masuk">
                             <div class="panel-footer">
                                 <span class="pull-left">Transaksi</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -42,7 +42,7 @@ require_once('_header.php');
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
+                        <a href="?a=view-stok-keluar">
                             <div class="panel-footer">
                                 <span class="pull-left">Transaksi</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -63,7 +63,7 @@ require_once('_header.php');
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
+                        <a href="?a=view-peminjaman-barang">
                             <div class="panel-footer">
                                 <span class="pull-left">Transaksi</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -84,7 +84,7 @@ require_once('_header.php');
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
+                        <a href="?a=view-peminjaman-proyektor">
                             <div class="panel-footer">
                                 <span class="pull-left">Transaksi</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
