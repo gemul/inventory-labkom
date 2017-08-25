@@ -206,6 +206,7 @@ require_once('_header.php');
                             <div class='col-lg-4'>
                               <form method=get action=''>
                                 <input type="hidden" name='a' value='view-stok-keluar'>
+                                <?php if(!empty($_GET['s']))echo "<input type='hidden' name='s' value='".$_GET['s']."'>";?>
                                 <div class="input-group">
                                   <input type="text" class="form-control" placeholder="Cari..." name='f' <?php if(!empty($_GET['f']))echo "value='".$_GET['f']."'";?>>
                                   <span class="input-group-btn">

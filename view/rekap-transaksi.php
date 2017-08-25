@@ -1,5 +1,43 @@
 <?php
 require_once('_header.php');
+$filterText="";
+if(!empty($_GET['s'])){
+  $filterText.="Mengurutkan \"".explode('-',$_GET['s'])[0]."\" ";
+  $sort=substr(explode('-',$_GET['s'])[0],0,20)." ".substr(explode('-',$_GET['s'])[1],0,4);
+}else{
+  $sort="waktu desc";
+}
+if(!empty($_GET['j']) || !empty($_GET['f'])){
+  $where="where ";
+}else{
+  $where="";
+}
+if(!empty($_GET['j'])){
+  $where.="jenis='".$_GET['j']."' ";
+  $filterText.=" Dari transaksi ".$_GET['j'];
+}else{
+  $where.="";
+}
+if(!empty($_GET['j']) && !empty($_GET['f'])){
+  $where.=" and ";
+}else{
+  $where.="";
+}
+if(!empty($_GET['f'])){
+  $filterText.=" Berdasarkan kata kunci \"".$_GET['f']."\"";
+  $where.=" (namaBarang like '%".$_GET['f']."%' or waktu like '%".$_GET['f']."%' or catatan like '%".$_GET['f']."%') ";
+}else{
+  $where.=" ";
+}
+if(!empty($_GET['p'])){
+  $pg=$_GET['p'];
+  $filterText.="Halaman $pg";
+}else{
+  $pg=1;
+}
+if($filterText!=''){
+  $filterText="(".$filterText." )";
+}
  ?>
             <div class="row">
                 <div class="col-lg-12">
@@ -14,7 +52,7 @@ require_once('_header.php');
                         <div class="panel-heading">
                           <div class='row'>
                             <div class='col-lg-8'>
-                              Transaksi Stok
+                              Transaksi Stok <?=$filterText?>
                             </div>
                             <div class='col-lg-4'>
                             </div>
@@ -36,36 +74,6 @@ require_once('_header.php');
                                     </thead>
                                     <tbody>
                                       <?php
-                                      if(!empty($_GET['p'])){
-                                        $pg=$_GET['p'];
-                                      }else{
-                                        $pg=1;
-                                      }
-                                      if(!empty($_GET['s'])){
-                                        $sort=substr(explode('-',$_GET['s'])[0],0,20)." ".substr(explode('-',$_GET['s'])[1],0,4);
-                                      }else{
-                                        $sort="waktu desc";
-                                      }
-                                      if(!empty($_GET['j']) || !empty($_GET['f'])){
-                                        $where="where ";
-                                      }else{
-                                        $where="";
-                                      }
-                                      if(!empty($_GET['j'])){
-                                        $where.="jenis='".$_GET['j']."' ";
-                                      }else{
-                                        $where.="";
-                                      }
-                                      if(!empty($_GET['j']) && !empty($_GET['f'])){
-                                        $where.=" and ";
-                                      }else{
-                                        $where.="";
-                                      }
-                                      if(!empty($_GET['f'])){
-                                        $where.=" (namaBarang like '%".$_GET['f']."%' or waktu like '%".$_GET['f']."%' or catatan like '%".$_GET['f']."%') ";
-                                      }else{
-                                        $where.=" ";
-                                      }
                                       $stokMasuk=$db->fetch("select * from transaksi inner join barang using(idbarang) $where order by $sort limit ".(($pg-1)*40).",40");
                                       foreach($stokMasuk as $item){
                                         echo "
@@ -125,7 +133,7 @@ require_once('_header.php');
                               <script type=text/javascript>
                               <?php if(!empty($_GET['s']))echo "$('#sortTable').val('".$_GET['s']."');";?>
                               function sortTable(e){
-                                window.location='?a=view-rekap-transaksi&s='+e.value+"<?php if(!empty($_GET['f']))echo "&f=".$_GET['f'];?>";
+                                window.location='?a=view-rekap-transaksi&s='+e.value+"<?php if(!empty($_GET['f']))echo "&f=".$_GET['f'];?><?php if(!empty($_GET['j']))echo "&j=".$_GET['j'];?>";
                               }
                               </script>
                             </div>
@@ -138,7 +146,7 @@ require_once('_header.php');
                               <script type=text/javascript>
                               <?php if(!empty($_GET['j']))echo "$('#filterJenis').val('".$_GET['j']."');";?>
                               function filterJenis(e){
-                                window.location='?a=view-rekap-transaksi&j='+e.value+"<?php if(!empty($_GET['f']))echo "&f=".$_GET['f'];?>";
+                                window.location='?a=view-rekap-transaksi&j='+e.value+"<?php if(!empty($_GET['f']))echo "&f=".$_GET['f'];?><?php if(!empty($_GET['s']))echo "&s=".$_GET['s'];?>";
                               }
                               </script>
                             </div>
@@ -146,6 +154,7 @@ require_once('_header.php');
                               <form method=get action=''>
                                 <input type="hidden" name='a' value='view-rekap-transaksi'>
                                 <?php if(!empty($_GET['j']))echo "<input type='hidden' name='j' value='".$_GET['j']."'>";?>
+                                <?php if(!empty($_GET['s']))echo "<input type='hidden' name='s' value='".$_GET['s']."'>";?>
                                 <div class="input-group">
                                   <input type="text" class="form-control" placeholder="Cari..." name='f' <?php if(!empty($_GET['f']))echo "value='".$_GET['f']."'";?>>
                                   <span class="input-group-btn">
@@ -153,6 +162,9 @@ require_once('_header.php');
                                   </span>
                                 </div>
                               </form>
+                            </div>
+                            <div class='col-lg-2'>
+                              <button class='btn btn-primary'>Unduh csv <i class='glyphicon glyphicon-download'></i></button>
                             </div>
                           </div>
                         </div>
