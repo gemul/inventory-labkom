@@ -8,11 +8,12 @@ if(count($cekPin)>=1){
     echo "<script type=text/javascript>alert('Data Tidak Lengkap');</script>";
     echo "<script type=text/javascript>window.history.back();</script>";
   }else{
-    $sql=$db->submit("insert into barang (namaBarang,idkategori,deskripsi) values (:f1,:f2,:f3)",
+    $sql=$db->submit("insert into barang (namaBarang,idkategori,deskripsi,barcode) values (:f1,:f2,:f3,:f4)",
       Array(
       'f1'=>$_POST['namaBarang'],
       'f2'=>$_POST['idkategori'],
       'f3'=>$_POST['deskripsi']
+      'f4'=>$_POST['barcode']
       )
     );
     $cekTA=$db->fetch("select * from typeahead where konten='".$_POST['namaBarang']."' and kategori='barang'");

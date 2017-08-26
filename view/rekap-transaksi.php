@@ -25,7 +25,7 @@ if(!empty($_GET['j']) && !empty($_GET['f'])){
 }
 if(!empty($_GET['f'])){
   $filterText.=" Berdasarkan kata kunci \"".$_GET['f']."\"";
-  $where.=" (namaBarang like '%".$_GET['f']."%' or waktu like '%".$_GET['f']."%' or catatan like '%".$_GET['f']."%') ";
+  $where.=" (namaBarang like '%".$_GET['f']."%' or waktu like '%".$_GET['f']."%' or catatan like '%".$_GET['f']."%' or barcode like '%".$_GET['f']."%') ";
 }else{
   $where.=" ";
 }

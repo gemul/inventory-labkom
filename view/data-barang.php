@@ -48,6 +48,10 @@ require_once('_header.php');
                                   <input name='deskripsi' id='deskripsi' class="form-control">
                               </div>
                               <div class="form-group">
+                                  <label>Barcode</label><br>
+                                  <input name='barcode' id='barcode' class="form-control" placeholder="Bila ada">
+                              </div>
+                              <div class="form-group">
                                   <label>PIN</label>
                                   <input name='pn' class="form-control" id='pn ' type='password'>
                               </div>
@@ -81,6 +85,7 @@ require_once('_header.php');
                                 <table class="table table-striped table-bordered table-hover">
                                     <thead>
                                         <tr>
+                                            <th>BCD</th>
                                             <th>Nama Barang</th>
                                             <th>Kategori</th>
                                             <th>Deskripsi</th>
@@ -93,6 +98,7 @@ require_once('_header.php');
                                       foreach($belumKembali as $item){
                                         echo "
                                          <tr>
+                                             <td>$item[barcode]</td>
                                              <td>$item[namaBarang]</td>
                                              <td>$item[nama]</td>
                                              <td>".substr($item['deskripsi'],0,50)."</td>
@@ -179,6 +185,7 @@ require_once('_header.php');
                   $('#namaBarang').val(nama);
                   $('#idkategori').val(idkategori);
                   $('#deskripsi').val(deskripsi);
+                  $('#barcode').val(barcode);
                   $('#ed-form').attr({'action':'?a=exec-data-barang-update&id='+id});
                   $('#ed-reset').show();
                 }
@@ -187,6 +194,7 @@ require_once('_header.php');
                   $('#namaBarang').val('');
                   $('#idkategori').val('');
                   $('#deskripsi').val('');
+                  $('#barcode').val('');
                   $('#ed-form').attr({'action':'?a=exec-data-barang-save'});
                   $('#ed-reset').hide();
                 }
