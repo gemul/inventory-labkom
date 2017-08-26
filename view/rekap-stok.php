@@ -23,30 +23,26 @@ require_once('_header.php');
                                             <th>Nama Barang</th>
                                             <th>Kategori</th>
                                             <th>Deskripsi</th>
-                                            <th>Laporan</th>
-                                            <th style=width:120px>Transaksi</th>
-                                            <th style=width:120px>Opsi</th>
+                                            <th>Stok</th>
+                                            <th style=width:120px>Laporan</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                       <?php
                                       $belumKembali=$db->fetch("select * from barang inner join kategori using(idkategori) order by nama desc");
                                       foreach($belumKembali as $item){
+                                        $masuk=$db->fetch("select sum(qty) as jml from transaksi where jenis='masuk' and idbarang='".$item['idbarang']."'");
+                                        $masuk=$masuk[0]['jml'];
+                                        $keluar=$db->fetch("select sum(qty) as jml from transaksi where jenis='keluar' and idbarang='".$item['idbarang']."'");
+                                        $keluar=$keluar[0]['jml'];
                                         echo "
                                          <tr>
                                              <td>$item[namaBarang]</td>
                                              <td>$item[nama]</td>
                                              <td>".substr($item['deskripsi'],0,50)."</td>
+                                             <td>".($masuk-$keluar)."</td>
                                              <td>
                                              <a onclick=\"laporanStok('".$item['namaBarang']."')\" class='btn btn-success btn-xs'>Transaksi</a>
-                                             </td>
-                                             <td>
-                                             <a onclick='transaksiMasuk(".$item['idbarang'].")' class='btn btn-success btn-xs'>Masuk</a>
-                                             <a onclick='transaksiKeluar(".$item['idbarang'].")' class='btn btn-success btn-xs'>Keluar</a>
-                                             </td>
-                                             <td>
-                                               <a onclick=\"editBarang(".$item['idbarang'].",'$item[namaBarang]','$item[idkategori]','$item[deskripsi]')\" class='btn btn-primary btn-xs'>Edit</a>
-                                               <a onclick='hapusBarang(".$item['idbarang'].")' class='btn btn-danger btn-xs'>Hapus</a>
                                              </td>
                                          </tr>
                                         ";

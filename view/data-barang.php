@@ -84,7 +84,6 @@ require_once('_header.php');
                                             <th>Nama Barang</th>
                                             <th>Kategori</th>
                                             <th>Deskripsi</th>
-                                            <th style=width:120px>Transaksi</th>
                                             <th style=width:120px>Opsi</th>
                                         </tr>
                                     </thead>
@@ -97,10 +96,6 @@ require_once('_header.php');
                                              <td>$item[namaBarang]</td>
                                              <td>$item[nama]</td>
                                              <td>".substr($item['deskripsi'],0,50)."</td>
-                                             <td>
-                                             <a onclick='transaksiMasuk(".$item['idbarang'].")' class='btn btn-success btn-xs'>Masuk</a>
-                                             <a onclick='transaksiKeluar(".$item['idbarang'].")' class='btn btn-success btn-xs'>Keluar</a>
-                                             </td>
                                              <td>
                                                <a onclick=\"editBarang(".$item['idbarang'].",'$item[namaBarang]','$item[idkategori]','$item[deskripsi]')\" class='btn btn-primary btn-xs'>Edit</a>
                                                <a onclick='hapusBarang(".$item['idbarang'].")' class='btn btn-danger btn-xs'>Hapus</a>
