@@ -11,7 +11,7 @@ if(count($cekPin)>=1){
     $sql=$db->submit("insert into kategori (nama,idMasterKategori,prioritas) values (:f1,:f2,:f3)",
       Array(
       'f1'=>$_POST['nama'],
-      'f2'=>$_POST['idMasterKategori'],
+      'f2'=>(int)$_POST['idMasterKategori'],
       'f3'=>$_POST['prioritas']
       )
     );
