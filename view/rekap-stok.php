@@ -30,8 +30,17 @@ require_once('_header.php');
                                     </thead>
                                     <tbody>
                                       <?php
+<<<<<<< HEAD
                                       $belumKembali=$db->fetch("select * from barang inner join kategori using(idkategori) order by nama desc");
                                       foreach($belumKembali as $item){
+=======
+                                      $stok=$db->fetch("select * from barang inner join kategori using(idkategori) order by nama desc");
+                                      foreach($stok as $item){
+                                        $masuk=$db->fetch("select sum(qty) as jml from transaksi where jenis='masuk' and idbarang='".$item['idbarang']."'");
+                                        $masuk=$masuk[0]['jml'];
+                                        $keluar=$db->fetch("select sum(qty) as jml from transaksi where jenis='keluar' and idbarang='".$item['idbarang']."'");
+                                        $keluar=$keluar[0]['jml'];
+>>>>>>> dev-laptop
                                         echo "
                                          <tr>
                                              <td>$item[namaBarang]</td>

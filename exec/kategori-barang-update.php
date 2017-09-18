@@ -12,7 +12,7 @@ if(count($cekPin)>=1){
     $sql=$db->submit("update kategori set nama=:f1, idMasterKategori=:f2,prioritas=:f3 where idkategori=:f4",
       Array(
       'f1'=>$_POST['nama'],
-      'f2'=>$_POST['idMasterKategori'],
+      'f2'=>(int)$_POST['idMasterKategori'],
       'f3'=>$_POST['prioritas'],
       'f4'=>$_GET['id']
       )

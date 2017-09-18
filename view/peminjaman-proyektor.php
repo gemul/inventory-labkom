@@ -111,7 +111,7 @@ require_once('_header.php');
                                              <td>$item[proyektor]</td>
                                              <td>$item[namaPeminjam]</td>
                                              <td>".$item['waktuPinjam']."</td>
-                                             <td>".floor(abs(time()-strtotime($item['waktuPinjam']))/(60*60*24))." Hari</td>
+                                             <td>".floor(abs(time()-strtotime($item['waktuPinjam']))/(60*60))." Jam</td>
                                              <td>
                                                  <a onclick='detailPeminjaman(".$item['idpeminjamanproyektor'].")' class='btn btn-primary btn-xs'>Detail</a>
                                                  <a onclick='transaksiKembali(".$item['idpeminjamanproyektor'].")' class='btn btn-success btn-xs'>Kembali</a>
@@ -172,7 +172,7 @@ require_once('_header.php');
                                       }
                                       $belumKembali=$db->fetch("select * from peminjamanproyektor $find order by $sort limit ".(($pg-1)*40).",40");
                                       foreach($belumKembali as $item){
-                                        $durasi=(!empty($item['waktuKembali']))?floor(abs(strtotime($item['waktuKembali'])-strtotime($item['waktuPinjam']))/(60*60*24)):0;
+                                        $durasi=(!empty($item['waktuKembali']))?floor(abs(strtotime($item['waktuKembali'])-strtotime($item['waktuPinjam']))/(60*60)):0;
                                         echo "
                                          <tr>
                                              <td>$item[proyektor]</td>
@@ -181,7 +181,7 @@ require_once('_header.php');
                                              <td>$item[instansi]</td>
                                              <td>".$item['waktuPinjam']."</td>
                                              <td>".$item['waktuKembali']."</td>
-                                             <td>".$durasi." Hari</td>
+                                             <td>".$durasi." Jam</td>
                                              <td>
                                                  <a onclick='detailPeminjaman(".$item['idpeminjamanproyektor'].")' class='btn btn-primary btn-xs'>Detail</a>
                                              </td>
