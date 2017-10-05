@@ -106,12 +106,18 @@ require_once('_header.php');
                                       <?php
                                       $belumKembali=$db->fetch("select * from peminjamanproyektor where waktuKembali is NULL order by waktupinjam desc");
                                       foreach($belumKembali as $item){
+										  $durasiJam=ceil(abs(time()-strtotime($item['waktuPinjam']))/(60*60));
+										  if($durasiJam > 24){
+											  $durasiBlm= (floor($durasiJam/24))." Hari ".($durasiJam % 24)." Jam";
+										  }else{
+											  $durasiBlm= $durasiJam." Jam";
+										  }
                                         echo "
                                          <tr>
                                              <td>$item[proyektor]</td>
                                              <td>$item[namaPeminjam]</td>
                                              <td>".$item['waktuPinjam']."</td>
-                                             <td>".ceil(abs(time()-strtotime($item['waktuPinjam']))/(60*60))." Jam</td>
+                                             <td>".$durasiBlm."</td>
                                              <td>
                                                  <a onclick='detailPeminjaman(".$item['idpeminjamanproyektor'].")' class='btn btn-primary btn-xs'>Detail</a>
                                                  <a onclick='transaksiKembali(".$item['idpeminjamanproyektor'].")' class='btn btn-success btn-xs'>Kembali</a>
@@ -150,6 +156,7 @@ require_once('_header.php');
                                             <th>Instansi</th>
                                             <th>Waktu Pinjam</th>
                                             <th>Waktu Kembali</th>
+                                            <th>Durasi</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -172,7 +179,14 @@ require_once('_header.php');
                                       }
                                       $belumKembali=$db->fetch("select * from peminjamanproyektor $find order by $sort limit ".(($pg-1)*40).",40");
                                       foreach($belumKembali as $item){
-                                        $durasi=(!empty($item['waktuKembali']))?ceil(abs(strtotime($item['waktuKembali'])-strtotime($item['waktuPinjam']))/(60*60)):0;
+                                        $durasiJam=(!empty($item['waktuKembali']))?ceil(abs(strtotime($item['waktuKembali'])-strtotime($item['waktuPinjam']))/(60*60)):0;
+										  if($durasiJam==0){
+											  $durasiBlm= "<span style='background:#ff0;color:#f00;padding:4px;'>Belum Kembali</span>";
+										  }elseif($durasiJam > 24){
+											  $durasiBlm= (floor($durasiJam/24))." Hari ".($durasiJam % 24)." Jam";
+										  }else{
+											  $durasiBlm= $durasiJam." Jam";
+										  }
                                         echo "
                                          <tr>
                                              <td>$item[proyektor]</td>
@@ -181,7 +195,7 @@ require_once('_header.php');
                                              <td>$item[instansi]</td>
                                              <td>".$item['waktuPinjam']."</td>
                                              <td>".$item['waktuKembali']."</td>
-                                             <td>".$durasi." Jam</td>
+                                             <td>".$durasiBlm."</td>
                                              <td>
                                                  <a onclick='detailPeminjaman(".$item['idpeminjamanproyektor'].")' class='btn btn-primary btn-xs'>Detail</a>
                                              </td>
