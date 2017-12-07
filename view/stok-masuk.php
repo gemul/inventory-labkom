@@ -30,7 +30,7 @@ require_once('_header.php');
                           <form role="form" action='?a=exec-stok-masuk-save' method='post' id=ed-form>
                               <div class="form-group">
                                   <label>Waktu</label>
-                                  <input name='waktu' class="form-control" id='datetimepicker' value='<?=date('Y-m-d h:i:s');?>'>
+                                  <input name='waktu' class="form-control" id='datetimepicker' value='<?=date('Y-m-d H:i:s');?>'>
                               </div>
                               <script type="text/javascript">
                                $("#datetimepicker").datetimepicker({

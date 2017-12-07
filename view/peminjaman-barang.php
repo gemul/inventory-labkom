@@ -30,7 +30,7 @@ require_once('_header.php');
                           <form role="form" action='?a=exec-peminjaman-barang-save' method='post'>
                               <div class="form-group">
                                   <label>Waktu</label>
-                                  <input name='waktuPinjam' class="form-control" id='datetimepicker' value='<?=date('Y-m-d h:i:s');?>'>
+                                  <input name='waktuPinjam' class="form-control" id='datetimepicker' value='<?=date('Y-m-d H:i:s');?>'>
                               </div>
                               <div class="form-group">
                                   <label>Nama Barang</label><br>
