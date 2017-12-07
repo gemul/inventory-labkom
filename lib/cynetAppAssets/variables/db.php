@@ -3,7 +3,7 @@ $cfg=array(
 	'dbEngine'=>'mysql',
 	'dbHost'=>'localhost',
 	'dbUser'=>'root',
-	'dbPassword'=>'',
+	'dbPassword'=>'escapeydk123',
 	'dbName'=>'inventaris_ydk',
 	'dbDevmode'=>true
 );
