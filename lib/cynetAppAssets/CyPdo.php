@@ -62,7 +62,7 @@ public function __construct(){
 		unset($s);
 	}
 	private function error($ERR_CODE,$ERR_DET=null){
-		CyError($ERR_CODE,$ERR_DET);
+		echo $ERR_DET;
 		exit();
 	}
 }

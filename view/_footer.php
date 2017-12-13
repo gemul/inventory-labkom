@@ -12,6 +12,9 @@
 <script src="uielement/bootstrap/vendor/metisMenu/metisMenu.min.js"></script>
 
 <script type="text/javascript">
+$(function() {
+    $('#side-menu').metisMenu();
+});
 var idleTime = 0;
 $(document).ready(function () {
     //Increment the idle time counter every minute.
@@ -32,7 +35,7 @@ function timerIncrement() {
         window.location.reload();
     }
 }
-</script>  
+</script>
 <style>
 .twitter-typeahead {
   width:100%;
